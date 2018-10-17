@@ -12,13 +12,15 @@ from .serializers import (
     RestaurantCreateUpdateSerializer,
 )
 from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
+from rest_framework.filters import SearchFilter, OrderingFilter
 from .permissions import IsOwner
 
 class RestaurantListView(ListAPIView):
     queryset = Restaurant.objects.all()
     serializer_class = RestaurantListSerializer
     permission_classes = [AllowAny,]
-
+    filter_backends = [SearchFilter,OrderingFilter,]
+    search_fields = ['name', 'owner__username','description',]
 
 class RestaurantDetailView(RetrieveAPIView):
     queryset = Restaurant.objects.all()
